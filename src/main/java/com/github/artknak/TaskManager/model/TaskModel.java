@@ -1,6 +1,8 @@
 package com.github.artknak.TaskManager.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +19,14 @@ public class TaskModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Task name is required.")
     private String name;
-    private LocalDate date;
+
+    @NotNull(message = "Task due date is required.")
+    private LocalDate dueDate;
+
+    @NotBlank(message = "Task responsible is required.")
     private String responsible;
 
 }

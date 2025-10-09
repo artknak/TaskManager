@@ -3,6 +3,7 @@ package com.github.artknak.TaskManager.controller;
 import com.github.artknak.TaskManager.dto.ApiResponse;
 import com.github.artknak.TaskManager.model.TaskModel;
 import com.github.artknak.TaskManager.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskController {
 
-    public final TaskService taskService;
+    private final TaskService taskService;
 
     // Get all tasks
     @GetMapping
@@ -40,16 +41,16 @@ public class TaskController {
 
     // Create task
     @PostMapping
-    public ResponseEntity<ApiResponse<TaskModel>> create(@RequestBody TaskModel task) {
+    public ResponseEntity<ApiResponse<TaskModel>> create(@Valid @RequestBody TaskModel task) {
         TaskModel created = taskService.create(task);
         return ResponseEntity.status(201).body(
-                new ApiResponse<>("Task created.", created));
+                new ApiResponse<>("Task created successfully.", created));
     }
 
     // Update task
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<TaskModel>> updateById(@PathVariable Long id,
-                                                             @RequestBody TaskModel task) {
+                                                             @Valid @RequestBody TaskModel task) {
         try {
             TaskModel updated = taskService.updateById(id, task);
             return ResponseEntity.ok(
@@ -62,14 +63,14 @@ public class TaskController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ApiResponse<Void>> deleteAll() {
+    public ResponseEntity<ApiResponse<String>> deleteAll() {
         taskService.deleteAll();
         return ResponseEntity.ok(
-                new ApiResponse<>("All tasks deleted.", null));
+                new ApiResponse<>("All tasks deleted successfully.", null));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<String>> deleteById(@PathVariable Long id) {
         try {
             taskService.deleteById(id);
             return ResponseEntity.ok(

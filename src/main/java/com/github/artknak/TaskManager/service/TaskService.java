@@ -33,7 +33,7 @@ public class TaskService {
                         ("Task with id " + id + " not found."));
 
         existingTask.setName(newData.getName());
-        existingTask.setDate(newData.getDate());
+        existingTask.setDueDate(newData.getDueDate());
         existingTask.setResponsible(newData.getResponsible());
 
         return taskRepository.save(existingTask);
